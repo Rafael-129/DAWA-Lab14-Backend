@@ -1,15 +1,27 @@
 const express = require('express');
 const cors = require('cors');
 const productRouter = require('./routes/products');
+const categoryRouter = require('./routes/categories');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3002',
+    'https://dawa-lab14-frontend-git-main-chanitas-projects.vercel.app',
+    /\.vercel\.app$/
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Rutas
+app.use('/api/auth', authRouter);
 app.use('/api/products', productRouter);
+app.use('/api/categories', categoryRouter);
 
 // Ruta raíz
 app.get('/', (req, res) => {
